@@ -1,0 +1,473 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Hide scrollbars */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Set rounded corners and matching background */
+html, body {
+    width: 350px;
+    height: 550px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e1e1e 0%, #323232 100%);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: #d4d4d4;
+    position: relative;
+}
+
+/* Splash Screen */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 550px;
+    background-color: #1e1e1e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    animation: fadeOut 1s forwards 2s;
+}
+
+#splash-content {
+    text-align: center;
+    color: #d4d4d4;
+}
+
+#splash-content h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+#splash-content .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#splash-content .social-icons a {
+    color: #d4d4d4;
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#splash-content .social-icons a:hover {
+    color: #007acc;
+}
+
+/* Fade-out Animation for Splash Screen */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Background Blur */
+.background-blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+/* Container with Glassmorphism Effect */
+.container {
+    padding: 10px;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards 2.5s;
+    position: relative;
+    height: 100%;
+    overflow: visible; /* Allow tooltips to be fully visible */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #d4d4d4;
+    font-weight: 700;
+}
+
+/* Form Styles */
+#auto-typer-form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative; /* Ensure tooltips position correctly */
+}
+
+.half-width {
+    width: 48%;
+}
+
+label {
+    display: block;
+    margin-bottom: 3px;
+    color: #d4d4d4;
+    font-weight: 600;
+    font-size: 10px;
+}
+
+textarea,
+input[type="number"],
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    font-size: 10px;
+    color: #d4d4d4;
+    outline: none;
+    resize: vertical;
+    max-width: 100%;
+    transition: border 0.2s, background-color 0.2s;
+}
+
+textarea::placeholder,
+input[type="number"]::placeholder,
+input[type="text"]::placeholder {
+    color: #808080;
+}
+
+textarea:focus,
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="file"]:focus {
+    border-color: #007acc;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.textarea-container {
+    position: relative;
+}
+
+#expand-textarea {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 3px;
+    border: none;
+    background-color: transparent;
+    color: #d4d4d4;
+    cursor: pointer;
+    font-size: 12px;
+    transition: color 0.2s;
+}
+
+#expand-textarea:hover {
+    color: #007acc;
+}
+
+/* File Upload Styles */
+.file-upload-container {
+    position: relative;
+}
+
+#pdf-warning {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #f1c40f;
+    cursor: pointer;
+}
+
+#pdf-warning .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background: #2d2d2d; /* Solid background color */
+    color: #d4d4d4;
+    text-align: left;
+    border-radius: 6px;
+    padding: 6px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Position tooltip above the icon */
+    left: -200%;
+    transform: translateX(-75%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#pdf-warning .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow pointing downwards */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2d2d2d transparent transparent transparent; /* Match tooltip background */
+}
+
+#pdf-warning:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Tooltip Styles */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 180px;
+    background: #2d2d2d; /* Solid background color */
+    color: #d4d4d4;
+    text-align: left;
+    border-radius: 6px;
+    padding: 6px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Position tooltip above the element */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow pointing downwards */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2d2d2d transparent transparent transparent; /* Match tooltip background */
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Start Button Styles */
+#start-button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 122, 204, 0.8);
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+#start-button:hover {
+    background-color: rgba(0, 122, 204, 1);
+    transform: translateY(-2px);
+}
+
+/* Connect Buttons */
+.connect-buttons {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.connect-buttons button {
+    width: 48%;
+    padding: 8px;
+    background-color: rgba(100, 100, 100, 0.8);
+    color: #ffffff;
+    border: none;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+    transition: background-color 0.2s, transform 0.2s;
+    position: relative;
+}
+
+.connect-buttons button.connected {
+    background-color: #28a745;
+}
+
+.connect-buttons button.connected::after {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.connect-buttons button:hover {
+    background-color: rgba(120, 120, 120, 1);
+    transform: translateY(-2px);
+}
+
+#status {
+    margin-top: 5px;
+    font-size: 10px;
+    color: #d4d4d4;
+}
+
+/* Footer with Social Media Links */
+.footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.footer p {
+    font-size: 10px;
+    color: #d4d4d4;
+    margin-bottom: 5px;
+}
+
+.footer .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer .social-icons a {
+    color: #d4d4d4;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer .social-icons a:hover {
+    color: #007acc;
+}
+
+/* Countdown Overlay */
+#countdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 550px;
+    background-color: rgba(30, 30, 30, 0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+#countdown-overlay.active {
+    display: flex;
+}
+
+#countdown-container {
+    text-align: center;
+}
+
+#countdown-message {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #d4d4d4;
+}
+
+#countdown-number {
+    font-size: 36px;
+    font-weight: bold;
+    color: #d4d4d4;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Prevent Scrollbars */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Additional Styles */
+input[type="number"],
+input[type="text"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Smooth Transition for Textarea Height */
+textarea {
+    transition: height 0.3s ease;
+}
+
+/* Animations for Form Elements */
+.form-group,
+#start-button,
+.connect-buttons {
+    opacity: 0;
+    animation: slideIn 0.5s forwards;
+}
+
+.form-group:nth-of-type(1) { animation-delay: 2.5s; }
+.form-group:nth-of-type(2) { animation-delay: 2.7s; }
+.form-group:nth-of-type(3),
+.form-group:nth-of-type(4) { animation-delay: 2.9s; }
+.form-group:nth-of-type(5),
+.form-group:nth-of-type(6) { animation-delay: 3.1s; }
+.form-group:nth-of-type(7) { animation-delay: 3.3s; }
+#start-button { animation-delay: 3.5s; }
+.connect-buttons { animation-delay: 3.7s; }
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}

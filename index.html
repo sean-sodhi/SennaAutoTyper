@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Senna Auto Typer</title>
+    <!-- Include Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div id="splash-content">
+            <h2>Made by Senna</h2>
+            <div class="social-icons">
+                <a href="https://instagram.com/your_instagram" target="_blank">
+                    <i class="fab fa-instagram"></i> @your_instagram
+                </a>
+                <a href="https://youtube.com/your_youtube" target="_blank">
+                    <i class="fab fa-youtube"></i> Your YouTube Channel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container glassmorphism">
+        <h1>Senna Auto Typer</h1>
+
+        <!-- Form Section -->
+        <form id="auto-typer-form">
+            <!-- Text Input Section -->
+            <div class="form-row">
+                <div class="form-group tooltip">
+                    <label for="text-input">Text to Type:</label>
+                    <div class="textarea-container">
+                        <textarea id="text-input" rows="2" placeholder="Enter your text here..."></textarea>
+                        <button type="button" id="expand-textarea"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="form-row">
+                <div class="form-group tooltip">
+                    <label for="file-upload">Parse from Document:</label>
+                    <div class="file-upload-container">
+                        <input type="file" id="file-upload" accept=".pdf,.doc,.docx">
+                        <span id="pdf-warning" class="tooltip hidden">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span class="tooltiptext">PDFs may not produce the best results as all text is parsed.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="form-row">
+                <div class="form-group half-width tooltip">
+                    <label for="typing-time">Typing Time (hh:mm):</label>
+                    <input type="text" id="typing-time" placeholder="e.g., 00:10">
+                    <span class="tooltiptext">Total typing time in hours and minutes (e.g., 00:10 for 10 minutes).</span>
+                </div>
+                <div class="form-group half-width tooltip">
+                    <label for="pauses-number">Number of Pauses:</label>
+                    <input type="number" id="pauses-number" min="0" value="0">
+                    <span class="tooltiptext">The number of pauses to take during typing.</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width tooltip">
+                    <label for="pause-duration">Pause Duration (mm:ss):</label>
+                    <input type="text" id="pause-duration" placeholder="e.g., 00:30">
+                    <span class="tooltiptext">Duration of each pause in minutes and seconds (e.g., 00:30 for 30 seconds).</span>
+                </div>
+                <div class="form-group half-width tooltip">
+                    <label for="pause-variability">Pause Variability (± minutes):</label>
+                    <input type="number" id="pause-variability" min="0" value="0">
+                    <span class="tooltiptext">Adjusts pause durations by ± minutes (leave 0 for fixed durations).</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width tooltip">
+                    <label for="typing-accuracy">Typing Accuracy (%):</label>
+                    <input type="number" id="typing-accuracy" min="0" max="100" value="100">
+                    <span class="tooltiptext">Percentage of correct keystrokes (e.g., 95% accuracy).</span>
+                </div>
+                <div class="form-group half-width tooltip">
+                    <label for="typing-speed-variability">Typing Speed Variability (%):</label>
+                    <input type="number" id="typing-speed-variability" min="0" max="100" value="0">
+                    <span class="tooltiptext">Adds variability to typing speed to mimic human typing (e.g., 20%).</span>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button type="button" id="start-button">Start Typing</button>
+        </form>
+
+        <!-- Connect Buttons -->
+        <div class="connect-buttons">
+            <button type="button" id="connect-google-docs"><i class="fas fa-file-alt"></i> Connect to Google Docs</button>
+            <button type="button" id="connect-another-tab"><i class="fas fa-globe"></i> Connect to Another Tab</button>
+            <p id="status"></p>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="footer">
+            <p>Support me on my socials:</p>
+            <div class="social-icons">
+                <a href="https://instagram.com/your_instagram" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/your_youtube" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdown-overlay">
+        <div id="countdown-container">
+            <p id="countdown-message">Place the typing cursor on your document</p>
+            <p id="countdown-number">3</p>
+        </div>
+    </div>
+
+    <!-- Background Blur -->
+    <div class="background-blur"></div>
+
+    <!-- Link to JS file -->
+    <script src="script.js"></script>
+</body>
+</html>

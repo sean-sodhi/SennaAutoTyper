@@ -1,0 +1,26 @@
+{
+  "name": "Senna Auto Typer",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "An auto typing Chrome extension with human-like typing simulation.",
+  "permissions": ["scripting", "activeTab", "tabs"],
+  "host_permissions": [
+    "https://docs.google.com/*",
+    "<all_urls>"
+],
+  "background": {
+      "service_worker": "background.js"
+  },
+  "action": {
+      "default_popup": "index.html"
+  },
+  "icons": {
+
+  },
+  "web_accessible_resources": [
+      {
+          "resources": ["contentScript.js"],
+          "matches": ["<all_urls>"]
+      }
+  ]
+}
