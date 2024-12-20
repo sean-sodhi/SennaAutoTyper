@@ -1,15 +1,21 @@
 {
-    "name": "Senna Auto Typer",
-    "version": "1.0",
-    "manifest_version": 3,
-    "permissions": ["scripting", "activeTab", "tabs"],
-    "host_permissions": ["<all_urls>"],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "index.html",
-      "default_title": "Senna Auto Typer"
+  "name": "Senna Auto Typer",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["scripting", "activeTab", "tabs"],
+  "host_permissions": ["https://docs.google.com/document/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://docs.google.com/document/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
     }
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Senna Auto Typer"
   }
-  
+}

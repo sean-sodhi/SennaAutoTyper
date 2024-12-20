@@ -1,91 +1,57 @@
+// background.js
+chrome.runtime.onInstalled.addListener(() => {
+    console.log("Extension installed and background ready.");
+});
+
+// Handle messages from popup.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Background received message:", message);
+
     if (message.action === "startTyping") {
-      const { data, tabId } = message;
-  
-      chrome.scripting.executeScript(
-        {
-          target: { tabId },
-          func: startTypingSimulation,
-          args: [data],
-        },
-        () => {
-          if (chrome.runtime.lastError) {
-            console.error("Error injecting script:", chrome.runtime.lastError.message);
-            sendResponse({ success: false, error: chrome.runtime.lastError.message });
-          } else {
-            sendResponse({ success: true });
-          }
-        }
-      );
-  
-      return true; // Keep the message channel open for sendResponse
-    }
-  });
-  
-  function startTypingSimulation(config) {
-    const {
-      text,
-      typingTime,
-      typingAccuracy,
-      typingSpeedVariability,
-      pauseDuration,
-      pausesNumber,
-      pauseVariability,
-    } = config;
-  
-    const iframe = document.querySelector('iframe.docs-texteventtarget-iframe');
-    if (!iframe) {
-      console.error("Cannot find Google Docs editor iframe.");
-      return;
-    }
-  
-    const editorDoc = iframe.contentDocument || iframe.contentWindow.document;
-    const editor = editorDoc.querySelector('[contenteditable="true"]');
-    if (!editor) {
-      console.error("No editable area found inside the iframe.");
-      return;
-    }
-  
-    editor.focus();
+        const { targetTabId, data } = message;
 
-    const parseTime = (timeStr) => {
-        const [minutes, seconds] = timeStr.split(":").map(Number);
-        return minutes * 60000 + seconds * 1000;
-    };
-
-    const typingDelay = parseTime(typingTime) / text.length;
-    const pauseDelay = parseTime(pauseDuration);
-
-    let index = 0;
-    let pausesInserted = 0;
-
-    const getRandomDelay = (base, variability) => base + (Math.random() * variability * 2 - variability);
-
-    function typeNextCharacter() {
-        if (index >= text.length) {
-            console.log("Typing completed.");
-            return;
+        // Validate the target tab ID
+        if (!targetTabId) {
+            console.error("No target tab ID provided.");
+            sendResponse({ success: false, error: "No target tab selected" });
+            return false; // Terminate the message listener
         }
 
-        if (pausesInserted < pausesNumber && Math.random() < 0.1) {
-            pausesInserted++;
-            console.log(`Pausing for ${pauseDelay} ms.`);
-            setTimeout(typeNextCharacter, getRandomDelay(pauseDelay, pauseVariability));
-            return;
-        }
+        console.log(`Preparing to inject content script into tab ID: ${targetTabId}`);
 
-        const char = text[index++];
-        editor.dispatchEvent(new InputEvent("input", { data: char, bubbles: true }));
+        // Inject the content script if not already injected
+        chrome.scripting.executeScript(
+            {
+                target: { tabId: targetTabId },
+                files: ["contentScript.js"]
+            },
+            () => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error injecting content script:", chrome.runtime.lastError.message);
+                    sendResponse({ success: false, error: chrome.runtime.lastError.message });
+                    return;
+                }
 
-        if (Math.random() * 100 > typingAccuracy) {
-            console.log(`Typo at index ${index - 1}`);
-            setTimeout(() => {
-                editor.dispatchEvent(new InputEvent("input", { data: char, bubbles: true }));
-            }, 200);
-        }
+                console.log("Content script injected successfully.");
 
-        setTimeout(typeNextCharacter, getRandomDelay(typingDelay, typingSpeedVariability));
+                // Send the typing action to the content script
+                chrome.tabs.sendMessage(
+                    targetTabId,
+                    { action: "startTyping", data },
+                    (response) => {
+                        if (chrome.runtime.lastError) {
+                            console.error("Error sending message to content script:", chrome.runtime.lastError.message);
+                            sendResponse({ success: false, error: chrome.runtime.lastError.message });
+                        } else {
+                            console.log("Response from content script:", response);
+                            sendResponse(response || { success: true });
+                        }
+                    }
+                );
+            }
+        );
+
+        // Keep the message port alive for asynchronous response
+        return true;
     }
-
-    typeNextCharacter();
-}
+});
